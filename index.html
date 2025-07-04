@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log Bajak Laut One Piece</title>
+    <style>
+      :root {
+        --pirate-red: #a60d0d;
+        --pirate-gold: #daa520;
+        --pirate-black: #1a1a1a;
+        --parchment: #f5f5dc;
+        --parchment-dark: #e6d8a7;
+        --text-parchment: #333;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+
+      body {
+        background-color: var(--parchment);
+        color: var(--text-parchment);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        padding-top: 20px;
+      }
+
+      h1 {
+        color: var(--pirate-gold);
+        text-shadow: 2px 2px 4px var(--pirate-black);
+        font-size: 2rem;
+        letter-spacing: 1px;
+        margin-top: -20px;
+      }
+
+      .app-container {
+        background-color: var(--parchment);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border: 8px solid var(--pirate-gold);
+        position: relative;
+        overflow: hidden;
+      }
+      .app-container:hover {
+        transform: perspective(1000px) rotateX(0deg);
+        box-shadow: 0 0 40px rgba(214, 158, 46, 1);
+      }
+
+      .app-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("https://m.media-amazon.com/images/S/pv-target-images/a0cb3885c44b8305ac89ba7ce98e8cd978bf3ebba6a151a00dbf2d528e98bf3b.jpg")
+          center/cover;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      .diary-form {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: rgba(214, 205, 164, 0.3);
+        border-radius: 8px;
+        border: 3px dashed var(--pirate-gold);
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--pirate-red);
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid var(--pirate-black);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.8);
+        font-size: 16px;
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+        margin-right: 10px;
+      }
+
+      .btn-primary {
+        background-color: var(--pirate-red);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(to right, #8a0b0b, #6e0909);
+        box-shadow: 0 2px 0 #6e0909, 0 3px 5px rgba(0, 0, 0, 0.4);
+      }
+
+      .btn-primary:hover {
+        background-color: #8a0b0b;
+        transform: scale(1.05);
+      }
+
+      .btn-secondary {
+        background-color: var(--pirate-gold);
+        color: var(--pirate-black);
+      }
+
+      .btn-secondary:hover {
+        background-color: #c5940f;
+        transform: scale(1.05);
+      }
+
+      .diary-entries {
+        margin-top: 30px;
+      }
+
+      .entry {
+        background-color: var(--parchment-dark);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        position: relative;
+        border-left: 5px solid var(--pirate-red);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s;
+      }
+      .entry::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 65%,
+          rgba(214, 158, 46, 0.1) 100%
+        );
+      }
+
+      .entry:hover {
+        transform: translateY(-5px);
+      }
+
+      .entry-title {
+        color: var(--pirate-black);
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        border-bottom: 1px solid var(--pirate-gold);
+        padding-bottom: 5px;
+      }
+
+      .entry-date {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 0.8rem;
+        color: var(--pirate-red);
+      }
+
+      .entry-content {
+        color: var(--pirate-black);
+        line-height: 1.6;
+      }
+
+      .entry-actions {
+        margin-top: 10px;
+        text-align: right;
+      }
+
+      .action-btn {
+        padding: 5px 10px;
+        margin-left: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+
+      .edit-btn {
+        background-color: var(--pirate-gold);
+        color: var(--pirate-black);
+      }
+
+      .delete-btn {
+        background-color: var(--pirate-black);
+        color: white;
+      }
+
+      .empty-message {
+        text-align: center;
+        padding: 20px;
+        color: var(--pirate-red);
+        font-style: italic;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 30px;
+        color: var(--pirate-gold);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        .logo {
+          width: 200px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .app-container {
+          padding: 15px;
+        }
+
+        .diary-form {
+          padding: 15px;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .entry {
+        animation: fadeIn 0.5s ease-out;
+      }
+      .entry:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--pirate-red);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8a0b0b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Catatan Kapten</h1>
+      </header>
+
+      <div class="app-container">
+        <div class="diary-form">
+          <div class="form-group">
+            <label for="entry-title">Judul Catatan</label>
+            <input
+              type="text"
+              id="entry-title"
+              placeholder="Laut badai mana yang kamu taklukkan hari ini?"
+            />
+          </div>
+          <div class="form-group">
+            <label for="entry-content">Jurnal Petualanganmu</label>
+            <textarea
+              id="entry-content"
+              placeholder="Catat petualanganmu, harta yang ditemukan, dan musuh yang dikalahkan..."
+            ></textarea>
+          </div>
+          <button id="save-btn" class="btn btn-primary">Simpan ke Log</button>
+          <button id="clear-btn" class="btn btn-secondary">Kosongkan</button>
+        </div>
+
+        <div class="diary-entries">
+          <h2>Kronik Bajak Lautmu</h2>
+          <div id="entries-list">
+            <!-- Catatan akan dimuat secara dinamis di sini -->
+            <div class="empty-message">
+              Belum ada catatan, Kapten! Petualanganmu menanti...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>Dibuat oleh bajak laut untuk bajak laut &copy; Grand Line Tech</p>
+      </footer>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+      const supabase = createClient(
+        "https://YOUR_PROJECT.supabase.co",
+        "YOUR_PUBLIC_ANON_KEY"
+      );
+
+      const saveBtn = document.getElementById("save-btn");
+      const clearBtn = document.getElementById("clear-btn");
+      const entryTitle = document.getElementById("entry-title");
+      const entryContent = document.getElementById("entry-content");
+      const entriesList = document.getElementById("entries-list");
+
+      let editId = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchEntries();
+      });
+
+      saveBtn.addEventListener("click", async () => {
+        const title = entryTitle.value.trim();
+        const content = entryContent.value.trim();
+
+        if (!title || !content) {
+          alert("Judul dan isi jurnal wajib diisi!");
+          return;
+        }
+
+        if (editId) {
+          await supabase
+            .from("pirate_log")
+            .update({ title, content })
+            .eq("id", editId);
+          editId = null;
+          saveBtn.textContent = "Simpan ke Log";
+        } else {
+          await supabase.from("pirate_log").insert([{ title, content }]);
+        }
+
+        clearForm();
+        fetchEntries();
+      });
+
+      clearBtn.addEventListener("click", clearForm);
+
+      async function fetchEntries() {
+        const { data, error } = await supabase
+          .from("pirate_log")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        entriesList.innerHTML = "";
+
+        if (error || !data || data.length === 0) {
+          entriesList.innerHTML =
+            '<div class="empty-message">Belum ada catatan, Kapten! Petualanganmu menanti...</div>';
+          return;
+        }
+
+        data.forEach((entry) => {
+          const entryElement = document.createElement("div");
+          entryElement.className = "entry";
+          entryElement.innerHTML = `
+                    <h3 class="entry-title">${entry.title}</h3>
+                    <div class="entry-date">${formatDate(
+                      entry.created_at
+                    )}</div>
+                    <p class="entry-content">${entry.content}</p>
+                    <div class="entry-actions">
+                        <button class="action-btn edit-btn" data-id="${
+                          entry.id
+                        }">Ubah</button>
+                        <button class="action-btn delete-btn" data-id="${
+                          entry.id
+                        }">Hapus</button>
+                    </div>
+                `;
+          entriesList.appendChild(entryElement);
+        });
+
+        document.querySelectorAll(".edit-btn").forEach((btn) =>
+          btn.addEventListener("click", async (e) => {
+            const id = e.target.getAttribute("data-id");
+            const { data } = await supabase
+              .from("pirate_log")
+              .select("*")
+              .eq("id", id)
+              .single();
+
+            if (data) {
+              entryTitle.value = data.title;
+              entryContent.value = data.content;
+              editId = data.id;
+              saveBtn.textContent = "Perbarui Catatan";
+              entryTitle.focus();
+            }
+          })
+        );
+
+        document.querySelectorAll(".delete-btn").forEach((btn) =>
+          btn.addEventListener("click", async (e) => {
+            const id = e.target.getAttribute("data-id");
+            if (
+              confirm("Yakin ingin menghapus catatan ini dari log, Kapten?")
+            ) {
+              await supabase.from("pirate_log").delete().eq("id", id);
+              fetchEntries();
+            }
+          })
+        );
+      }
+
+      function clearForm() {
+        entryTitle.value = "";
+        entryContent.value = "";
+        editId = null;
+        saveBtn.textContent = "Simpan ke Log";
+      }
+
+      function formatDate(dateString) {
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        };
+        return new Date(dateString).toLocaleDateString("id-ID", options);
+      }
+    </script>
+  </body>
+</html>
